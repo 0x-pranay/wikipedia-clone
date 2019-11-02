@@ -7,13 +7,23 @@ const users_controller = require('../controllers/userController');
 
 /// USERS ROUTES
 
-// GET users welcome page
+// GET users welcome page.
 router.get('/', users_controller.index);
 
-// Login page
-router.get('/login', users_controller.users_login);
+// GET Login page.
+router.get('/login', users_controller.users_get_login);
 
-// Register Page
-router.get('/register', users_controller.users_register);
+// POST Login page.
+router.post('/login', users_controller.users_post_login);
+
+// get Register Page.
+router.get('/register', users_controller.users_get_register);
+
+// Post Register page.
+router.post('/register', users_controller.users_post_register);
+
+// GET logout user
+router.get('/logout', users_controller.users_logout);
+
 
 module.exports = router;
