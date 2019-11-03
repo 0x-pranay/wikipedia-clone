@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const ArticleSchema = new Schema({
     author: {
         type: Schema.Types.ObjectId,
-        ref: 'Author',
+        ref: 'User',
         required: true,
     },
     edits: [{

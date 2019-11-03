@@ -1,0 +1,26 @@
+extends layout
+
+block append head
+	script(src='/javascripts/tinymce.min.js')
+	script(src='/javascripts/jquery.tinymce.min.js')
+	script(type="application/javascript" src='/javascripts/tinymce_script.js')
+
+block content
+	div(class="row mt-5")
+		div(class="col-md-10 m-auto")
+			h1(class=" mb-3") Create a New Article. 
+				i(class="fas fa-file-alt")
+			form(action="" method="POST")
+				.form-group
+					input.form-control#title(type="text", name="article_title" placeholder="Title" value=(typeof article_title != 'undefined' ? article_title : ''))
+				.form-group
+					textarea(id="playground" name="summary" ) #{summary}
+				.form-group
+					label Topics:
+					div
+						for topic in topics
+							div(style='display: inline; padding-right:20px;')
+								input.checkbox-input(type='checkbox', name='topic', id=topic._id, value=topic._id, checked=topic.checked )
+								label(for=topic._id) #{topic.name}
+								
+				button(type="submit" class="btn btn-primary") Create Article

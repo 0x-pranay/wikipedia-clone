@@ -11,11 +11,11 @@ block content
 				form(action='/users/register' method="POST")
 					.form-group
 						label(for="name") Name
-						input.form-control(type="name" id="name" name="name" placeholder="Enter Name"
+						input.form-control(type="text" id="name" name="name" placeholder="Enter Name"
 							value=( typeof name != 'undefined' ? name : ''))
 					.form-group
 						label(for='email') Email:
-						input.form-control(type="name" id="name" name="email" placeholder="Enter Email"
+						input.form-control(type="text" id="name" name="email" placeholder="Enter Email"
 							value=( typeof email != 'undefined' ? email : ''))
 					.form-group
 						label(for='password') Password:

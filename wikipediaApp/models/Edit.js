@@ -10,7 +10,7 @@ const EditSchema = new Schema({
     },
     author:{
         type: Schema.Types.ObjectId,
-        ref: 'Author',
+        ref: 'User',
         required: true,
     },
     article_title: {

@@ -22,7 +22,7 @@ router.get('/test', wikiController.playground);
 router.get('/article/create', articleController.article_create_get);
 
 // POST Handle  Article Creation.
-router.post('/article/create', articleController.article_create_post);
+router.post('/article/create',ensureAuthenticated, articleController.article_create_post);
 
 // GET Create topic
 router.get('/topic/create', topicController.topic_create_get);
