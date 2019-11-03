@@ -18,9 +18,12 @@
     "morgan": "~1.9.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "pug": "^2.0.4"
+    "pug": "^2.0.4",
+    "tinymce": "^5.1.1"
   },
   "devDependencies": {
+    "bower": "^1.8.8",
+    "browserify": "^16.5.0",
     "eslint": "^6.6.0",
     "nodemon": "^1.19.4"
   }

@@ -7,10 +7,11 @@ const { ensureAuthenticated } = require('../config/auth');
 const wikiController = require('../controllers/wikiController');
 
 //GET Main page of wiki
-// router.get('/', wikiController.get_index );
+ router.get('/',ensureAuthenticated, wikiController.get_index );
 
 // POST Main page of wiki for editing.
+router.post('/',ensureAuthenticated, wikiController.post_index );
 
-router.get('/',ensureAuthenticated, wikiController.post_index );
-
+// test page to be used as playground.
+router.get('/test', wikiController.playground);
 module.exports = router;
