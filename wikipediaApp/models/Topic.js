@@ -13,8 +13,8 @@ const TopicSchema = new Schema({
 
 TopicSchema
 .virtual('url')
-.get(()=>{
-    return 'wiki/topic/' + this._id;
+.get(function(){
+    return '/wiki/topic/'+this._id;
 });
 
 module.exports = mongoose.model('Topic', TopicSchema);

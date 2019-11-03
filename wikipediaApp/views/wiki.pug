@@ -1,7 +1,11 @@
 extends layout
+block append head
+	script(src='/javascripts/tinymce.min.js')
+	script(src='/javascripts/jquery.tinymce.min.js')
+	script(type="application/javascript" src='/javascripts/tinymce_script.js')
 
 block content
-    h1.mt-4= title
-    h2.mt-4= name
-    p(class="lead mb-3") Welcome #{name}
-    a(href="/users/logout" class="btn btn-secondary") Logout
+	h1.mt-4= title
+	h2.mt-4= name
+	p(class="lead mb-3") Welcome #{name}
+	a(href="/users/logout" class="btn btn-secondary") Logout

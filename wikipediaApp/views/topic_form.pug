@@ -1,0 +1,17 @@
+extends layout
+
+block content
+	div(class="row mt-5")
+		div(class="col-md-10 m-auto")
+			h1(class=" mb-3") Create a New Topic. 
+				//- i(class="fas fa-file-alt")
+			form(action="" method="POST")
+				.form-group
+					input.form-control#title(type="text", name="topic" placeholder="ex. Science, Arts")
+				button(type="submit" class="btn btn-primary") Submit
+
+			if errors
+				ul
+					for error in errors				
+						li
+							div(class="invalid-feedback") error.msg
