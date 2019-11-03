@@ -22,4 +22,4 @@ AuthorSchema
     return '/wiki/author/'+ this._id;
 });
 
-models.exports = mongoose.model('Author', AuthorSchema);
+module.exports = mongoose.model('Author', AuthorSchema);

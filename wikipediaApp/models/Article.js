@@ -2,15 +2,20 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const ArticeSchema = new Schema({
+const ArticleSchema = new Schema({
     author: {
         type: Schema.Types.ObjectId,
         ref: 'Author',
         required: true,
     },
-    edits = [{
+    edits: [{
         type: Schema.Types.ObjectId,
         ref: 'Edit'
+    }],
+    topics: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Topic',
+        required: true,
     }],
     created_on: {
         type: Date,
@@ -19,7 +24,7 @@ const ArticeSchema = new Schema({
 });
 
 // Virtual for Articel URL
-ArticeSchema
+ArticleSchema
 .virtual('url')
 .get(() => {
     return '/wiki/article/' + this._id;
@@ -31,5 +36,5 @@ ArticleSchema
     return this.edits[0];
 });
 
-module.exports = mongoose.model('Article', ArticeSchema);
+module.exports = mongoose.model('Article', ArticleSchema);
 
