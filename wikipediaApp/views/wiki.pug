@@ -6,10 +6,7 @@ block append head
 
 block content
 
-	if typeof name != 'undefined'
-		h3.mt-4 Welcome ${name}
-	else
-		h3.mt-4 Welcome Guest user.
+	h3= (typeof user) !='undefined' ? "Welcome "+ user.name : "Welcome Guest user."
 	
 
 	div(class="card border-info mb-3 mt-3" style="max-width: 20rem;")

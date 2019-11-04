@@ -15,15 +15,23 @@ block content
 	div.tab-content#myTabContent
 		div.tab-pane(class="fade show active " id="read_article")
 			div(class="ml-3 mt-4")
-				p #{context.title}
-				p  Created on: #{context.created_on}
-				hr
-				p #{JSON.stringify(context)}
-				iframe(width="700", height='371', src='/wiki/edits/summary/'+context.edit_id)
+				h3 #{context.article_title}
+				h6 Created on: #{context.created_on} by #{context.author}
+				iframe(width="650", height='400', src='/wiki/edits/summary/'+context.edit_id)
 
 
 		div.tab-pane(class="fade" id="edit_article")
-			h1.my-3 Playground Testing TinyMCE
-			form(method="post" mt-3)
-				textarea(id="playground" name="playground" cols="30" rows="10" ) #{example}
+			
+			form(method="POST" action="")
+				.form-group
+					input.form-control#title(type="text", name="article_title" placeholder="Title" value=(typeof context.article_title != 'undefined' ? context.article_title : ''))
+				.form-group
+					textarea(id="playground" name="article_summary" cols="30" rows="10" ) #{context.article_summary}
+				.form-group
+					input.form-control#title(type="text", name="edit_summary" placeholder="commit message" value=(typeof context.edit_summary != 'undefined' ? context.edit_summary : ''))
+				button(type="submit" class="btn btn-primary") Submit
 
+			if errors
+				ul
+				for error in errors
+					li #{error}

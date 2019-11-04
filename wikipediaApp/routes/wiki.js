@@ -13,8 +13,6 @@ const editController = require('../controllers/editController');
 // GET Main page of wiki
  router.get('/', wikiController.get_index );
 
-// POST Main page of wiki for editing.
-router.post('/', wikiController.post_index );
 
 // test page to be used as playground.
 router.get('/test', wikiController.playground);
@@ -34,6 +32,10 @@ router.get('/article/origin/:id', articleController.article_view_origin);
 
 // GET view article in detail.
 router.get('/article/:id', articleController.article_detail);
+
+// POST Handle article edits.
+router.post('/article/:id', editController.article_edit);
+
 
 // GET fetch summary for an edit.
 router.get('/edits/summary/:id', editController.json_summary)

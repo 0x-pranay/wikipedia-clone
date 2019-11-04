@@ -27,20 +27,24 @@ exports.article_detail = (req, res, next) => {
 	.populate('edits')
 	.populate('author')
 	.exec(function (err, article){
-
-		let context= {
-			title: "View Article ", 
+		if(err) return next(err);
+		
+		let context= { 
 			id: article._id,
 			edit_id: article.edits[0]._id,
 			author: article.author.name,
 			article_title: article.edits[0].article_title,
+			article_summary: article.edits[0].article_summary,
 			created_on: article.created_on_formatted,
 		};
-		res.render('article_detail', {context: context});
+		res.render('article_detail', {title: "View Article", context: context});
 
 	})
 
 };
+
+
+
 
 // Display origin edit of an Article.
 exports.article_view_origin = (req, res, next) => {
@@ -50,6 +54,7 @@ exports.article_view_origin = (req, res, next) => {
 		.sort({created_on: 1 })
 		.exec(function (err, article) {
 			if(err) return next(err);
+
 			console.log(article[0]);
 			res.render('article_view_origin', { article: article[0] })
 		});
@@ -82,7 +87,8 @@ exports.article_create_post = [
 	body('summary', 'Article must not be empty.').isLength({min: 1}).trim(),
 
 	// Sanitize fields ??
-	// sanitizeBody('*').escape(),
+	sanitizeBody('article_title').escape(),
+
 	//Processing request 
 	(req, res, next) => {
 
