@@ -20,19 +20,19 @@ html(lang="en")
 				span(class='navbar-toggler-icon') 
 			
 			div(class='collapse navbar-collapse' id='navbarColor03')
-				ul(class="navbar-nav mr-auto")
-					li(class="nav-item active")
-						a(class="nav-link" href="#") Home
+				ul(class="navbar-nav navbar-right ml-auto")
+					li(class=title=='Main Page'? 'nav-item active':'nav-item')
+						a(class="nav-link" href="/wiki") Home
 							span(class="sr-only") (current)
 					if (typeof user != 'undefined')
-						li(class="nav-item")
+						li(class=title=='Login'?'nav-item active':'nav-item')
 							a(class='nav-link' href="#") #{user.name} 
-						li(class="nav-item")
+						li(class=title=='Register'?'nav-item active':'nav-item')
 							a(class='nav-link' href="/users/logout") logout
 					else
-						li(class="nav-item")
+						li(class=title=='Login'?'nav-item active':'nav-item')
 							a(class='nav-link' href="/users/login") Login
-						li(class="nav-item")
+						li(class=title=='Register'?'nav-item active':'nav-item')
 							a(class='nav-link' href="/users/register") Register
 				form(class="form-inline my-2 my-lg-0")
 					input(class="form-control mr-sm-2" type="text" placeholder="Search")
@@ -44,15 +44,15 @@ html(lang="en")
 			div(class='row')
 				div(class='col-sm-2')
 					block sidebar
-						ul(class='side-bar nav')
-							li
+						ul(class='list-group mt-1')
+							li(class="list-group-item d-flex justify-content-between align-items-center" class=title=='Main Page'?'active':'undefined')
 								a(href='/wiki/') Main Page
-							li
+							li(class="list-group-item d-flex justify-content-between align-items-center" class=title=='Articles'?'active':'undefined')
 								a(href='/wiki/articles') All articles
-							li
+							li(class="list-group-item d-flex justify-content-between align-items-center" class=title=='Create Article'?'active':'undefined')
 								a(href='/wiki/article/create') Create an article
-							li
-								a(href='/wiki/test') Playground/testing
+							li(class="list-group-item d-flex justify-content-between align-items-center" class=title=='Playground'?'active':'undefined')
+								a(href='/wiki/test') Playground
 						
 
 				div(class='col-sm-10')

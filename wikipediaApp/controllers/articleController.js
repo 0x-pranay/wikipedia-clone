@@ -17,7 +17,7 @@ exports.article_list = (req, res) => {
 			title: 'List of all Articles',
 			list_articles: list_articles,
 		}
-		res.render('article_list', {context: context})
+		res.render('article_list', {title: 'Articles', context: context})
 	});
 };
 
@@ -82,7 +82,7 @@ exports.article_create_post = [
 	body('summary', 'Article must not be empty.').isLength({min: 1}).trim(),
 
 	// Sanitize fields ??
-	sanitizeBody('*').escape(),
+	// sanitizeBody('*').escape(),
 	//Processing request 
 	(req, res, next) => {
 

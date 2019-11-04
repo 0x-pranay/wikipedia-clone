@@ -5,7 +5,16 @@ block append head
 	script(type="application/javascript" src='/javascripts/tinymce_script.js')
 
 block content
-	h1.mt-4= title
-	h2.mt-4= name
-	p(class="lead mb-3") Welcome #{name}
-	a(href="/users/logout" class="btn btn-secondary") Logout
+
+	if typeof name != 'undefined'
+		h3.mt-4 Welcome ${name}
+	else
+		h3.mt-4 Welcome Guest user.
+	
+
+	div(class="card border-info mb-3 mt-3" style="max-width: 20rem;")
+		div.card-header 
+			span Demo Login Credentials
+		.card-body
+			h4.card-title email: test@gmail.com
+			p.card-text password: test1234 
