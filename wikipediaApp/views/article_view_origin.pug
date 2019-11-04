@@ -1,0 +1,6 @@
+extends layout
+
+block content
+	p #{article.edits[0].article_summary}
+	hr
+	iframe(width="1000", height='371', src='/wiki/edits/summary/'+article.edits[0]._id)

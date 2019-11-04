@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const Schema = mongoose.Schema;
 
@@ -26,12 +27,18 @@ const ArticleSchema = new Schema({
 // Virtual for Articel URL
 ArticleSchema
 .virtual('url')
-.get(() => {
-    return '/wiki/article/' + this._id;
+.get(function ()  {
+    return '/wiki/article/'+ this._id;
 });
 
 ArticleSchema
-.virtual('latest')
+.virtual('created_on_formatted')
+.get(function() {
+	return this.created_on ? moment(this.created_on).format('MMMM Do, YYYY'): '';
+});
+
+ArticleSchema
+.virtual('origin')
 .get( () => {
     return this.edits[0];
 });

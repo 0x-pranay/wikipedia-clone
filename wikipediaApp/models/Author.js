@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const Schema = mongoose.Schema;
 
@@ -14,6 +15,12 @@ const AuthorSchema = new Schema({
         Default: Date.now
     },
 
+});
+
+AuthorSchema
+.virtual('date_of_joining_formatted')
+.get(function() {
+	return this.date_of_joining ? moment(this.date_of_joining).format('MMMM Do, YYYY'): '';
 });
 
 AuthorSchema

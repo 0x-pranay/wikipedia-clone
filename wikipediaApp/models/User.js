@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// const moment = require('moment');
+const moment = require('moment');
 
 const Schema = mongoose.Schema;
 
@@ -26,6 +26,10 @@ const UserSchema = new Schema({
     }
 });
 
-
+UserSchema
+.virtual('date_formatted')
+.get(function() {
+	return this.date ? moment(this.date).format('MMMM Do, YYYY'): '';
+});
 
 module.exports = mongoose.model('User', UserSchema);

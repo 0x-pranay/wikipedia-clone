@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
+
 
 const Schema = mongoose.Schema;
 
@@ -35,6 +37,20 @@ const EditSchema = new Schema({
         Default: Date.now,
     },
 
+});
+
+// Virtual for Articel URL
+EditSchema
+.virtual('url_summary')
+.get(() => {
+    return '/wiki/edit/summary/' + this._id;
+});
+
+// formatted timestamp
+EditSchema
+.virtual('timestamp_formatted')
+.get(function() {
+	return this.timestamp ? moment(this.timestamp).format('MMMM Do, YYYY'): '';
 });
 
 module.exports = mongoose.model('Edit', EditSchema);

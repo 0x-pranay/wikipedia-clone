@@ -1,0 +1,12 @@
+extends layout
+
+block content
+	h1= context.title
+
+	ul
+		each article in context.list_articles
+			li
+				a(href=article.url) #{article.edits[0].article_title}
+					| ( #{article.author.name})
+		else
+			li There are no article. 

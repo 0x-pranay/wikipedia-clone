@@ -9,12 +9,50 @@ const {body, validationResult, sanitizeBody } = require('express-validator');
 
 // Display list of all Articles.
 exports.article_list = (req, res) => {
-	res.send('NOT IMPLEMENTED : Article list');
+	Article.find()
+	.populate('edits')
+	.populate('author')
+	.exec( function (err, list_articles){
+		let context= {
+			title: 'List of all Articles',
+			list_articles: list_articles,
+		}
+		res.render('article_list', {context: context})
+	});
 };
 
 // Display detail page of an Article.
-exports.article_detail = (req, res) => {
-	res.send('NOT IMPLEMENTED: Article detail');
+exports.article_detail = (req, res, next) => {
+	Article.findById(req.params.id)
+	.populate('edits')
+	.populate('author')
+	.exec(function (err, article){
+
+		let context= {
+			title: "View Article ", 
+			id: article._id,
+			edit_id: article.edits[0]._id,
+			author: article.author.name,
+			article_title: article.edits[0].article_title,
+			created_on: article.created_on_formatted,
+		};
+		res.render('article_detail', {context: context});
+
+	})
+
+};
+
+// Display origin edit of an Article.
+exports.article_view_origin = (req, res, next) => {
+	Article
+		.find()
+		.populate('edits')
+		.sort({created_on: 1 })
+		.exec(function (err, article) {
+			if(err) return next(err);
+			console.log(article[0]);
+			res.render('article_view_origin', { article: article[0] })
+		});
 };
 
 // Display Article Create form on GET.
@@ -105,9 +143,11 @@ exports.article_create_post = [
 
 						// Successfully created article, edit and added relations.
 						// Redirects to new article detail page.
-						res.redirect(article.url);
+						console.log(article.url);
+						res.redirect(article.url);		
 					});
 				});
+				
 
 			});
 		}
