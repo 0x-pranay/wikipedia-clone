@@ -18,78 +18,78 @@ exports.json_summary = (req, res, next)=>{
 
 };
 
-// Handle Article Edits
-exports.article_edit = (req, res, next) => [
 
-	// validate fields.
-	body('article_title', 'Title must not be empty.').isLength({min: 1}).trim(),
-	body('summary', 'Article must not be empty.').isLength({min: 1}).trim(),
+exports.article_edit = [
 
-	// Sanitize fields ??
+	// validating form fields and return error message for invalid fields. 
+	body('article_title', 'Title must not be empty').isLength({ min: 1}).trim(),
+	body('article_summary', 'Title must not be empty').isLength({ min: 1}).trim(),
+	body('edit_summary', 'commit message must not be empty').isLength({ min: 1}).trim(),
+
+	// sanitizing fields.
 	sanitizeBody('article_title').escape(),
-	sanitizeBody('article_summary').escape(),
-	
+	sanitizeBody('edit_summary').escape(),
+
+
 	(req, res, next) => {
-
-		// Extract validation errors from requests.
+		
+		// Extract validation errors for request.
 		const errors = validationResult(req);
-
-		var edit = new Edit({
-			article: req.params.id,
-			author: req.user,
-			article_title: req.body.article_title,
-			article_summary: req.body.article_summary,
-			edit_summary: req.body.edit_summary,
-		});
 
 		if(!errors.isEmpty()){
 			// There are errors. Render again with sanitized fields
 			Article.findById(req.params.id)
-				.poupulate('edits')
-				.populate('author')
-				.sort({ timestamp: -1})
-				.exec(function(err, article){
-					if(err) return next(err);
-					
-					let context ={
-						id: req.params.id,
-						edit_id: article.edits[0]._id,
-						author: article.author.name,
-						article_title: req.body.article_title,
-						article_summary: req.body.article_summary,
-						created_on: article.created_on_formatted,
-					};
-					res.redirect('article_detail', { title: "Edit Article", context: context});
+			.populate('author')
+			.populate('edits')
+			.sort({ edited_on: -1 })
+			.exec( function(err, article){
+				if(err) return next(err);
 
-				});
-				return;
-		
+				let context = {
+					id: req.params.id,
+					edit_id: article.edits[0]._id,
+					author: article.author.name,
+					article_title: req.body.article_title,
+					article_summary: req.body.article_summary,
+					edit_summary: req.body.edit_summary,
+					created_on: article.created_on_formatted,
+				};
+				console.log(JSON.stringify(errors));
+				res.render('article_detail', { title: "Edit Article", context: context, errors: errors.array() });
+			});
 		}
 		else {
-			//  Data is valid. save the edit and add it to article's arrray of edits.
-			edit.save(function(err){
-				if(err) { return next(err); }
+			// Data is valid.
 
-				//  edit recording successfull- need to include edit in article.
-				Article.findById(req.params.id)
-				.populate('edits')
-				.exec( function (err, article){
-					if(err) return next(err);
+			Article.findById(req.params.id)
+			.populate('author')
+			.populate('edits')
+			.exec(function(err, article){
+				if (err) { return next(err); }
+				var edit = new Edit({
+					article: article._id,
+					author: req.user,
+					article_title: req.body.article_title,
+					article_summary: req.body.article_summary,
+					edit_summary: req.body.edit_summary,
 
+				});
+				edit.save(function(err){
+					if(err) { return next(err); }
+
+					// successfully created edit object and included in the parent article.
 					article.edits.push(edit);
-					article.save(function(err) {
-						if(err) { return next(err);}
 
-						// Successfully included the edit in parent article.
-						// redirects to article url.
+					article.save(function(err){
+						if(err) return next(err);
+
+						// successfully pushed recent edit into parent article array.
+						console.log("Successfully pushed edit"+ edit._id + " into parent article ID:" + article._id);
 						res.redirect(article.url);
 					});
 				});
-				 
+
 			});
-
 		}
-		
-
 	}
 ];

@@ -12,26 +12,40 @@ block content
 		li(class="nav-item")
 			a(class="nav-link" data-toggle="tab" href="#edit_article") Edit
 	- var example = "Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu000";
+	
+	
 	div.tab-content#myTabContent
+	
 		div.tab-pane(class="fade show active " id="read_article")
-			div(class="ml-3 mt-4")
-				h3 #{context.article_title}
-				h6 Created on: #{context.created_on} by #{context.author}
-				iframe(width="650", height='400', src='/wiki/edits/summary/'+context.edit_id)
+			div(class="row")
+				div(class="col col-md-auto")
+					div(class="ml-3 mt-2")
+						h3 #{context.article_title}
+						div
+							h6 Created on:  
+								small(class='text-muted') #{context.created_on} by #{context.author}  
+							h6 Latest edit: 
+								small(class='text-muted') #{context.edits[0].timestamp_formatted}
+
+						iframe(width="650", height='400', frameborder='0' marginheight='20' src='/wiki/edits/summary/'+context.edits[0]._id)
+
+				div(class="col col-lg-2 ml-1")
+					h4(class='text-center pt-3') Edit history:
+					ul(class="list-group list-group-flush")
+						each edit in context.edits
+							li(class="list-group-item")
+								a(href=edit.url) #{edit.article_title}
 
 
 		div.tab-pane(class="fade" id="edit_article")
+			include ./snippets/messages.pug
 			
-			form(method="POST" action="")
+			form(action="" method="POST")
 				.form-group
 					input.form-control#title(type="text", name="article_title" placeholder="Title" value=(typeof context.article_title != 'undefined' ? context.article_title : ''))
 				.form-group
 					textarea(id="playground" name="article_summary" cols="30" rows="10" ) #{context.article_summary}
 				.form-group
-					input.form-control#title(type="text", name="edit_summary" placeholder="commit message" value=(typeof context.edit_summary != 'undefined' ? context.edit_summary : ''))
+					input.form-control(type="text", name="edit_summary" placeholder="commit message" value=(typeof context.edit_summary != 'undefined' ? context.edit_summary : ''))
+				
 				button(type="submit" class="btn btn-primary") Submit
-
-			if errors
-				ul
-				for error in errors
-					li #{error}

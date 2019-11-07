@@ -32,25 +32,32 @@ const EditSchema = new Schema({
         maxlength: 255,
         requied: true,
     },
-    timestamp: {
+    edited_on: {
         type: Date,
-        Default: Date.now,
-    },
+        default: Date.now,
+    }
 
 });
 
-// Virtual for Articel URL
+// Virtual for edit summary URL only.
 EditSchema
 .virtual('url_summary')
-.get(() => {
+.get(function(){
     return '/wiki/edit/summary/' + this._id;
+});
+
+// Virtual for Edit url.
+EditSchema
+.virtual('url')
+.get(function(){
+    return '/wiki/edit/' + this._id;
 });
 
 // formatted timestamp
 EditSchema
 .virtual('timestamp_formatted')
 .get(function() {
-	return this.timestamp ? moment(this.timestamp).format('MMMM Do, YYYY'): '';
+	return this.edited_on ? moment(this.edited_on).format('MMMM Do, YYYY, hh : mm :ss a'): '';
 });
 
 module.exports = mongoose.model('Edit', EditSchema);

@@ -9,9 +9,12 @@ block content
 	h3= (typeof user) !='undefined' ? "Welcome "+ user.name : "Welcome Guest user."
 	
 
-	div(class="card border-info mb-3 mt-3" style="max-width: 20rem;")
-		div.card-header 
-			span Demo Login Credentials
-		.card-body
-			h4.card-title email: test@gmail.com
-			p.card-text password: test1234 
+	if (typeof user == 'undefined')
+		div(class="card border-info mb-3 mt-3" style="max-width: 20rem;")
+			div.card-header 
+				span Demo Login Credentials
+			.card-body
+				h4.card-title email: test@gmail.com
+				p.card-text password: test1234
+	else
+		h2= user.email

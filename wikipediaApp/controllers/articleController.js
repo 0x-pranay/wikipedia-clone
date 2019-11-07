@@ -12,6 +12,7 @@ exports.article_list = (req, res) => {
 	Article.find()
 	.populate('edits')
 	.populate('author')
+	.sort({ created_on: -1 })
 	.exec( function (err, list_articles){
 		let context= {
 			title: 'List of all Articles',
@@ -29,17 +30,27 @@ exports.article_detail = (req, res, next) => {
 	.exec(function (err, article){
 		if(err) return next(err);
 		
-		let context= { 
-			id: article._id,
-			edit_id: article.edits[0]._id,
-			author: article.author.name,
-			article_title: article.edits[0].article_title,
-			article_summary: article.edits[0].article_summary,
-			created_on: article.created_on_formatted,
-		};
-		res.render('article_detail', {title: "View Article", context: context});
+		Edit.find({ 'article': article._id})
+		.sort({edited_on: -1 })
+		.exec(function (err, sorted_edits){
 
-	})
+			console.log(sorted_edits);
+			
+			if(err) {return next(err);}
+
+			let context= { 
+				edits: sorted_edits,
+				author: article.author.name,
+				article_title: sorted_edits[0].article_title,
+				article_summary: article.edits[0].article_summary,
+				created_on: article.created_on_formatted,
+				topics: article.topics
+			};
+			res.render('article_detail', {title: "View Article", context: context});
+
+		});
+
+	});
 
 };
 
