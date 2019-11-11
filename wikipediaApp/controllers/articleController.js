@@ -8,18 +8,23 @@ const {body, validationResult, sanitizeBody } = require('express-validator');
 
 
 // Display list of all Articles.
-exports.article_list = (req, res) => {
-	Article.find()
+exports.article_list = (req, res, next) => {
+	
+	Article
+	.find()
 	.populate('edits')
 	.populate('author')
-	.sort({ created_on: -1 })
-	.exec( function (err, list_articles){
-		let context= {
-			title: 'List of all Articles',
-			list_articles: list_articles,
+	.populate('user')
+	.exec(function (err, articles){
+		if(err) return next(err);
+
+		context ={
+			title: "List of all Articles",
+			list_articles: articles,
 		}
-		res.render('article_list', {title: 'Articles', context: context})
+		res.render('article_list', {title: 'All articles', context: context });
 	});
+
 };
 
 // Display detail page of an Article.
