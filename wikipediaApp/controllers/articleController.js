@@ -4,6 +4,7 @@ const Edit = require('../models/Edit');
 const Topic = require('../models/Topic');
 
 
+const jsdiff = require('diff');
 const {body, validationResult, sanitizeBody } = require('express-validator');
 
 
@@ -38,20 +39,20 @@ exports.article_detail = (req, res, next) => {
 		Edit.find({ 'article': article._id})
 		.sort({edited_on: -1 })
 		.exec(function (err, sorted_edits){
-
-			console.log(sorted_edits);
-			
 			if(err) {return next(err);}
 
-			let context= {
+			const diff = (sorted_edits.length>1)?(jsdiff.diffCss(sorted_edits[0].article_summary, sorted_edits[1].article_summary)):null;
+			const context= {
 				edits: sorted_edits,
 				author: article.author.name,
 				article_title: sorted_edits[0].article_title,
 				article_summary: article.edits[0].article_summary,
 				created_on: article.created_on_formatted,
-				topics: article.topics
+				topics: article.topics,
+				diff: diff
+				
 			};
-			res.render('article_detail', {title: "View Article",anchor:'#read_article', context: context});
+			res.render('article_detail', {title: "View Article", anchor:'#read_article', context: context});
 
 		});
 

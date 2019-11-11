@@ -11,6 +11,8 @@ block content
 			a(class=anchor==='#read_article'? 'nav-link active': 'nav-link' data-toggle="tab" href="#read_article") Read
 		li(class="nav-item")
 			a(class=anchor==='#edit_article'?"nav-link active":'nav-link' data-toggle="tab" href="#edit_article") Edit
+		li(class="nav-item")
+			a(class=anchor==='#diff_article'?"nav-link active":'nav-link' data-toggle="tab" href="#diff_article") Diff
 	- var example = "Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu000";
 	
 	
@@ -49,3 +51,13 @@ block content
 					input.form-control(type="text", name="edit_summary" placeholder="commit message" value=(typeof context.edit_summary != 'undefined' ? context.edit_summary : ''))
 				
 				button(type="submit" class="btn btn-primary") Submit
+
+		div.tab-pane(class=anchor==='#diff_article'?'fade show active':'fade' id="diff_article")
+			div(class="mt-5")
+				
+				if(context.diff)
+					each part in context.diff
+						-let color_class= part.added? 'bg-success': part.removed?'bg-danger':'bg-light'
+						span(class=color_class) #{part.value}
+				else
+					h5 No Diff exists.

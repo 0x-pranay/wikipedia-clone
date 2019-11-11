@@ -4,19 +4,14 @@ block append head
 	script(src='/javascripts/tinymce.min.js')
 	script(src='/javascripts/jquery.tinymce.min.js')
 	script(type="application/javascript" src='/javascripts/tinymce_script.js')
-
+		
+		
 block content
-	ul(class="nav nav-tabs")
-		li(class="nav-item")
-			a(class="nav-link active" data-toggle="tab" href="#read_article") Read
-		li(class="nav-item")
-			a(class="nav-link" data-toggle="tab" href="#edit_article") Edit
-	- var example = "Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu000";
-	div.tab-content#myTabContent
-		div.tab-pane(class="fade show active" id="read_article")
-			p.my-3 #{example}
-		div.tab-pane(class="fade" id="edit_article")
-			h1.my-3 Playground Testing TinyMCE
-			form(method="post" mt-3)
-				textarea(id="playground" name="playground" cols="30" rows="10" ) #{example}
-
+	h5 string one: #{stringA}
+	h5 string two: #{stringB}
+	h5 Diff: #{JSON.stringify(diff)}
+	hr
+	h5 Displaying the diff with color
+	each part in diff
+		-let color_class= part.added? 'bg-success': part.removed?'bg-danger':'bg-light'
+		span(class=color_class) #{part.value}
