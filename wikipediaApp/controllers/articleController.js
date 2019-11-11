@@ -43,7 +43,7 @@ exports.article_detail = (req, res, next) => {
 			
 			if(err) {return next(err);}
 
-			let context= { 
+			let context= {
 				edits: sorted_edits,
 				author: article.author.name,
 				article_title: sorted_edits[0].article_title,
@@ -51,7 +51,7 @@ exports.article_detail = (req, res, next) => {
 				created_on: article.created_on_formatted,
 				topics: article.topics
 			};
-			res.render('article_detail', {title: "View Article", context: context});
+			res.render('article_detail', {title: "View Article",anchor:'#read_article', context: context});
 
 		});
 

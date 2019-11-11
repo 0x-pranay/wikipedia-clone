@@ -47,6 +47,7 @@ exports.article_edit = [
 
 				let context = {
 					id: req.params.id,
+					edits: article.edits,
 					edit_id: article.edits[0]._id,
 					author: article.author.name,
 					article_title: req.body.article_title,
@@ -55,7 +56,7 @@ exports.article_edit = [
 					created_on: article.created_on_formatted,
 				};
 				console.log(JSON.stringify(errors));
-				res.render('article_detail', { title: "Edit Article", context: context, errors: errors.array() });
+				res.render('article_detail', { title: "Edit Article", anchor:'#edit_article', context: context, errors: errors.array() });
 			});
 		}
 		else {

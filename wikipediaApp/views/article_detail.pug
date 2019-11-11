@@ -8,15 +8,15 @@ block append head
 block content
 	ul(class="nav nav-tabs")
 		li(class="nav-item")
-			a(class="nav-link active" data-toggle="tab" href="#read_article") Read
+			a(class=anchor==='#read_article'? 'nav-link active': 'nav-link' data-toggle="tab" href="#read_article") Read
 		li(class="nav-item")
-			a(class="nav-link" data-toggle="tab" href="#edit_article") Edit
+			a(class=anchor==='#edit_article'?"nav-link active":'nav-link' data-toggle="tab" href="#edit_article") Edit
 	- var example = "Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu000";
 	
 	
 	div.tab-content#myTabContent
 	
-		div.tab-pane(class="fade show active " id="read_article")
+		div.tab-pane(class=anchor==="#read_article"?"fade show active":'fade' id="read_article")
 			div(class="row")
 				div(class="col col-md-auto")
 					div(class="ml-3 mt-2")
@@ -37,7 +37,7 @@ block content
 								li(class="list-group-item") #{edit.article_title}
 
 
-		div.tab-pane(class="fade" id="edit_article")
+		div.tab-pane(class=anchor==='#edit_article'?'fade show active':'fade' id="edit_article")
 			include ./snippets/messages.pug
 			
 			form(action="" method="POST")
