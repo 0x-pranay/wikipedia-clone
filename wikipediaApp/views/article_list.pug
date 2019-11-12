@@ -2,21 +2,26 @@ extends layout
 
 block content
 	h1.text-center= context.title
-
-	ul.list-group.list-group-flush
-		each article in context.list_articles 
-			li.list-group-item
-				h4 #{article.edits[ article.edits.length -1].article_title}  &nbsp
-					span
-						small
-							a(href=article.url)
-								i(class="fas fa-external-link-alt")
-				p
-					small Created by :
-					|  #{article.author.name} &nbsp&nbsp
-					small last editied on:
-					|	#{article.edits[article.edits.length -1].timestamp_formatted}
-					
-				
-		else
-			li.list-group-item There are no article. 
+	.row
+		.col.col-md-8
+			ul.list-group.list-group-flush
+			each article in context.list_articles 
+				li.list-group-item
+					h4 #{article.edits[ article.edits.length -1].article_title}  &nbsp
+						span
+							small
+								a(href=article.url)
+									i(class="fas fa-external-link-alt")
+					p
+						small Created by :
+						|  #{article.author.name} &nbsp&nbsp
+						small last editied on:
+						|	#{article.edits[article.edits.length -1].timestamp_formatted}	
+			else
+				li.list-group-item There are no article.
+		.com.col-md-4
+			.card.mb-3
+				h3.card-header Articles stats
+				.card-body
+					ul.list-group.list-group-flush
+						li.list-group-item Total Articles: #{context.list_articles.length}

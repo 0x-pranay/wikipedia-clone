@@ -17,6 +17,8 @@ const editController = require('../controllers/editController');
 // test page to be used as playground.
 router.get('/test', wikiController.playground);
 
+/// ARTICLES
+
 // GET list all articles.
 router.get('/articles', articleController.article_list);
 
@@ -37,9 +39,15 @@ router.get('/article/:id', articleController.article_detail);
 router.post('/article/:id', editController.article_edit);
 
 
-// GET fetch summary for an edit.
-router.get('/edits/summary/:id', editController.json_summary)
+/// EDITS
 
+// GET fetch summary for an edit.
+router.get('/edits/summary/:id', editController.json_summary);
+
+// GET edit detail page.
+router.get('/edit/:id', editController.edit_detail);
+
+/// TOPICS
 
 // GET Create topic
 router.get('/topic/create', topicController.topic_create_get);

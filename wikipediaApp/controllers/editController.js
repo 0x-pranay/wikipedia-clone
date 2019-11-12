@@ -18,6 +18,17 @@ exports.json_summary = (req, res, next)=>{
 
 };
 
+exports.edit_detail = (req, res, next) => {
+	Edit.findById(req.params.id)
+	.populate('author')
+	.exec(function(err, edit){
+		if(err) return next(err);
+		context = edit;
+		//send details of the edit.
+		res.render('edit_detail', {title:'Article Detail', context: context})
+	})
+}
+
 
 exports.article_edit = [
 

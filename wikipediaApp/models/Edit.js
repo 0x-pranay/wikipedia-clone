@@ -57,7 +57,7 @@ EditSchema
 EditSchema
 .virtual('timestamp_formatted')
 .get(function() {
-	return this.edited_on ? moment(this.edited_on).format('MMMM Do, YYYY, hh : mm :ss a'): '';
+	return this.edited_on ? moment(this.edited_on).format('MMMM Do, hh : mm :ss a'): '';
 });
 
 module.exports = mongoose.model('Edit', EditSchema);

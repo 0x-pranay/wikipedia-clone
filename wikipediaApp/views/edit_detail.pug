@@ -1,0 +1,17 @@
+extend layout 
+
+block content
+	div
+	h1= title	
+	.card.border-secondary.mb-3(style="max-width:70rem")
+		h3.card-header #{context.article_title}
+		.card-body
+			if context.edit_summary
+				h4.card-title Edit message: #{context.edit_summary}
+			else
+				h4.card-title Article Created.
+			h6.card-subtitel(class="mb-2 text-muted") Author: #{context.author.name} &nbsp&nbsp&nbsp&nbsp Edited on: #{context.timestamp_formatted}
+			.card-text 
+				hr
+				iframe(width="650", height='400', frameborder='0' marginheight='20' src='/wiki/edits/summary/'+context._id)
+				//- #{context.article_summary}
